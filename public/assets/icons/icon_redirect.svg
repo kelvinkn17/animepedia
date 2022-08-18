@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="49" height="49" viewBox="0 0 49 49">
+  <defs>
+    <clipPath id="clip-icon_redirect">
+      <rect width="49" height="49"/>
+    </clipPath>
+  </defs>
+  <g id="icon_redirect" clip-path="url(#clip-icon_redirect)">
+    <g id="_16074758961543238879" data-name="16074758961543238879" transform="translate(3.446 3.446)">
+      <path id="Path_9" data-name="Path 9" d="M29.376,38.242H7.866A5.873,5.873,0,0,1,2,32.376V10.866A5.873,5.873,0,0,1,7.866,5H19.6a1.955,1.955,0,0,1,0,3.911H7.866a1.958,1.958,0,0,0-1.955,1.955v21.51a1.958,1.958,0,0,0,1.955,1.955h21.51a1.958,1.958,0,0,0,1.955-1.955V20.643a1.955,1.955,0,1,1,3.911,0V32.376A5.873,5.873,0,0,1,29.376,38.242Z" transform="translate(0 2.866)"/>
+      <path id="Path_10" data-name="Path 10" d="M27.688,17.643a1.955,1.955,0,0,1-1.955-1.955V5.911H15.955a1.955,1.955,0,0,1,0-3.911H27.688a1.955,1.955,0,0,1,1.955,1.955V15.688A1.955,1.955,0,0,1,27.688,17.643Z" transform="translate(11.465)"/>
+      <path id="Line_2" data-name="Line 2" d="M.955,24.42A1.955,1.955,0,0,1-.427,21.082L21.082-.427a1.955,1.955,0,0,1,2.765,2.765L2.338,23.848A1.949,1.949,0,0,1,.955,24.42Z" transform="translate(16.688 3)"/>
+    </g>
+  </g>
+</svg>

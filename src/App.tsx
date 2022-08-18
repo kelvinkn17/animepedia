@@ -1,25 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
+import 'normalize.css';
 import './App.css';
+import 'react-loading-skeleton/dist/skeleton.css';
+import styled from '@emotion/styled';
+import { useTheme } from '@emotion/react';
+
+// theme
+
+// components
+import Main from './Main';
+import Navbar from './layouts/Navbar';
+import Header from './layouts/Header';
+import Footer from './layouts/Footer';
 
 function App() {
+  const theme = useTheme();
+
+  const MainStyle = styled.div`
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100vw;
+  `
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MainStyle>      
+      <Header />
+
+      <Main />
+
+      <Navbar />
+      <Footer />
+    </MainStyle>
   );
 }
 

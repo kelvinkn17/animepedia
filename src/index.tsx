@@ -4,12 +4,27 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import ThemeProvider from './theme';
+
+import ApolloProvider from './apollo';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
-    <App />
+    <HelmetProvider>
+      <ThemeProvider>
+        <ApolloProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ApolloProvider>
+      </ThemeProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );
 
