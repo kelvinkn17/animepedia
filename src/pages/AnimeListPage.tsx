@@ -1,81 +1,59 @@
-import { Container, Grid, Pagination, Typography, useTheme } from "@mui/material";
-import { useState, useEffect } from "react";
-import { gql, useQuery } from "@apollo/client";
+import {Container, Grid, Pagination, Typography} from "@mui/material";
+import {useEffect, useState} from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {useQuery} from "@apollo/client";
 
 import Page from "../components/elements/Page";
 import AnimeCard from "../components/animelist/AnimeCard";
-import LoadingSpinner from "../components/elements/LoadingSpinner";
 
-const getAnimeList = (page:number, perPage:number) => {
-    const GET_CHARACTERS = gql`
-        query{
-            Page(page: ${page}, perPage: ${perPage}) {
-                pageInfo{
-                    currentPage
-                    lastPage
-                }
-                media(sort:  TRENDING_DESC) {
-                    id
-                    trending
-                    popularity
-                    title {
-                        romaji
-                    }
-                    coverImage {
-                        extraLarge
-                        large
-                        medium
-                        color
-                    }
-                }
-            }
-        }
-    `;
+import {getAnimeList} from "../graphql/AnimeDataQuery";
 
-    return GET_CHARACTERS;
-}
+const PER_PAGE = 12;
 
 const AnimeListPage = () => {
-    const theme = useTheme();
+    const navigate = useNavigate();
+
+    const { page } = useParams();
+
+    useEffect(() => {
+        if (typeof page === "string" && page) {
+            setCurrentPage(parseInt(page));
+            setStartIndexNumber((parseInt(page)-1) * PER_PAGE);
+        }
+    }, []);
 
     // GET DATA
     const [currentPage, setCurrentPage] = useState(1);
-    const {error, data, loading, refetch }= useQuery(getAnimeList(currentPage, 12));
+    const {error, data, loading }= useQuery(getAnimeList(currentPage, PER_PAGE));
+    const [startIndexNumber, setStartIndexNumber] = useState(0);
 
     // PAGINATION
     const [totalPage, setTotalPage] = useState();
     useEffect(() => {
-        console.log(data);
         if(data){
-            console.log(data.Page.pageInfo.lastPage);
             setTotalPage(data.Page.pageInfo.lastPage)
         }
     }, [data]);
 
     const onChangePage = (event:any, value:number) => { 
         setCurrentPage(value);
-
-        window.scroll({top: 0, left: 0, behavior: 'smooth' });
+        setStartIndexNumber((value-1) * PER_PAGE);
+        navigate(`/anime/trending/${value}`);
     }
-
-    useEffect(() => {
-        refetch();
-    }, [currentPage]);
-
 
     return(
         <Page title="Anime List">
             <Container maxWidth="xl" style={{ marginTop: '4rem' }}>
-                <Typography gutterBottom variant="h5" component="h1" style={{ fontWeight: '800' }}>
+                <Typography gutterBottom variant="h5" component="h1" style={{ fontWeight: '800', marginBottom: '1rem' }}>
                     Trending Anime
                 </Typography>
 
                 <Grid container spacing="0.6rem" alignItems="stretch" >
                     {(data && !loading) &&
-                        data.Page.media.map(( item:any, index:number) => { 
+                        data.Page.media.map(( item:any, index:number) => {
                             return(
                                 <Grid key={item.id} item xxs={6} xs={4} md={2.4} lg={2} style={{ display: 'flex' }}>
-                                    <AnimeCard id={item.id} image={item.coverImage.large} title={item.title.romaji} color={item.coverImage.color} index={index} />
+                                    <AnimeCard id={item.id} image={item.coverImage.large} title={item.title.romaji} color={item.coverImage.color} index={startIndexNumber+index} />
                                 </Grid>
                                 
                             )

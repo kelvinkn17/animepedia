@@ -36,6 +36,7 @@ const RatingBadge = ({ value, style }:RatingBadgeProps) => {
             ...style
         }
     )
+
     return(
         <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
             <div style={{ fontSize: '0.6rem', marginBottom: '0.2rem' }}>

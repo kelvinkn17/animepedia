@@ -1,43 +1,38 @@
-import { Markup } from "interweave"
-import { Typography, useTheme } from "@mui/material"
-import Box from "../elements/Box";
-import { useState } from "react";
+import {Markup} from "interweave"
+import {Typography, useTheme} from "@mui/material"
+import Box from "../elements/BoxItem";
+import {useState} from "react";
 
 interface DescriptionBoxProps{
-    description: string
+    description: string,
+    tags: any[]
 }
 
 const DescriptionBox = ({ description }:DescriptionBoxProps) => {
     const theme = useTheme();
 
-    console.log(description.length);
-
     let expandFlag;
-    if(description.length > 300){
-        expandFlag = true;
-    }else{
-        expandFlag = false;
-    }
+    expandFlag = description.length > 300;
 
     const [isExpanded, setIsExpanded] = useState(false);
-    const [needExpand, setNeedExpand] = useState(expandFlag);
+    const [needExpand] = useState(expandFlag);
 
     const onClickExpand = () => {
         setIsExpanded(!isExpanded);
     }
 
     return(
-        <Box>
+        <Box className="pop-in">
             <Typography variant="h6" component="h2">
                 Description
             </Typography>
-            
+
             <div style={{ lineHeight: '1.5', fontSize: '1rem'}}>
                 {needExpand ?
                     isExpanded ?
-                        <>
-                            <Markup content={description} />
-                        </>
+                        <div>
+                            <Markup content={description}/>
+                        </div>
                         :
                         <>
                             <Markup content={description.slice(0, 300)} />...

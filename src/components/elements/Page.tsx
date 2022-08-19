@@ -9,12 +9,7 @@ interface PageProps {
 
 // ----------------------------------------------------------------------
 
-const Page = (({
-    children,
-    title = '',
-    meta,
-    ...other
-}: PageProps) => (
+const Page = (({children, title = '', meta, ...other}: PageProps) => (
     <>
         <Helmet>
             <title>{`${title} - Animepedia`}</title>

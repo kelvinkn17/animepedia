@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, matchPath } from "react-router-dom";
 import styled from "@emotion/styled";
 import { useTheme } from "@mui/material";
 // components
@@ -6,6 +6,10 @@ import SvgIconStyle from "../components/elements/SvgIconStyle";
 
 type NavbarItemProps = {
     active: boolean
+}
+
+const getActive = (path:string, pathname:string) => {
+    return path ? !!matchPath({ path, end: false }, pathname) : false;
 }
 
 const Navbar = () => {
@@ -17,13 +21,15 @@ const Navbar = () => {
     const MENU_LIST = [
         {
             id: 'animelist',
-            path: '/',
+            path: '/anime/trending/1',
+            basePath: '/anime',
             label: 'Anime List', 
             icons: '/assets/icons/icon_animelist.svg'
         },{
             id: 'mycollections',
             path: '/mycollections',
-            label: 'My Collections', 
+            basePath: '/mycollections',
+            label: 'My Collections',
             icons: '/assets/icons/icon_mycollections.svg'
         },
     ]
@@ -79,7 +85,7 @@ const Navbar = () => {
         <NavbarContainer>
             {MENU_LIST.map((item, index) => {
                 return(
-                    <NavbarItem onClick={() => handleNavigate(item.path)} className="shrink-click" active={location.pathname === item.path} key={index}>
+                    <NavbarItem onClick={() => handleNavigate(item.path)} className="shrink-click" active={getActive(item.basePath, location.pathname)} key={index}>
                         <SvgIconStyle src={item.icons} sx={{ width: '1.4rem', marginBottom: '0.2rem' }} />
 
                         <div className="navbar-item-label">

@@ -9,6 +9,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import ThemeProvider from './theme';
 
 import ApolloProvider from './apollo';
+import {CollectionsProvider} from "./context/CollectionsContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,9 +20,11 @@ root.render(
     <HelmetProvider>
       <ThemeProvider>
         <ApolloProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
+          <CollectionsProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </CollectionsProvider>
         </ApolloProvider>
       </ThemeProvider>
     </HelmetProvider>

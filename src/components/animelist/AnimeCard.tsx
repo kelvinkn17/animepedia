@@ -1,8 +1,11 @@
 import styled from "@emotion/styled";
-import { useTheme } from "@mui/material";
+import { useTheme, Fade, Zoom } from "@mui/material";
 import Skeleton from "react-loading-skeleton";
 import { useNavigate } from "react-router-dom";
 import MaxLine from "../elements/MaxLine";
+import useCollections from "../../hooks/useCollections";
+import {useState} from "react";
+import AddButton from "./AddButton";
 
 interface AnimeCardProps {
     id: string,
@@ -64,7 +67,12 @@ const AnimeCard = ({ id, image, title, color, index, loading }:AnimeCardProps) =
                 height: '2.4rem',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                transition: 'all 0.2s ease-in'
+            },
+            ".anime-card-add-button.selected": {
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.common.white,
             },
             ".anime-card-ranking": {
                 position: 'absolute',
@@ -99,24 +107,24 @@ const AnimeCard = ({ id, image, title, color, index, loading }:AnimeCardProps) =
     }
 
     return(
-        <AnimeCardContainer onClick={handleClick} className="pop-in">
-            <img src={image} alt="" />
-            <div className="anime-card-title">
-                <MaxLine line={2}>
-                    {title}
-                </MaxLine>
-            </div>
+        <Fade in={!loading}>
+            <AnimeCardContainer onClick={handleClick}>
+                <img src={image} alt="" />
+                <div className="anime-card-title">
+                    <MaxLine line={2}>
+                        {title}
+                    </MaxLine>
+                </div>
 
-            <button className="anime-card-add-button shrink-click">
-                +
-            </button>
+                <AddButton id={id} title={title} coverImage={image} />
 
-            <div className="anime-card-ranking">
-                <span style={{ color: 'grey', mixBlendMode: 'difference' }}>
-                    #{index+1}
-                </span>
-            </div>
-        </AnimeCardContainer>
+                <div className="anime-card-ranking">
+                    <span style={{ color: 'grey', mixBlendMode: 'difference' }}>
+                        #{index+1}
+                    </span>
+                </div>
+            </AnimeCardContainer>
+        </Fade>
     )
 }
 

@@ -2,17 +2,20 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import LoadingPage from "./pages/LoadingPage";
+import ScrollToTop from "./hooks/ScrollToTop";
 
 const Main = () => {
     return(
         <React.Suspense fallback={<LoadingPage />}>
+            <ScrollToTop />
             <Routes>
-                <Route path='/' element={<AnimeListPage />} />
+                <Route path="/" element={<Navigate to="/anime/trending/1"/>} />
+                <Route path='/anime/trending/:page' element={<AnimeListPage />} />
                 <Route path='/anime/:id' element={<AnimeDetailPage />} />
                 <Route path='/mycollections' element={<MyCollectionsPage />} />
 
                 <Route
-                    path="*" element={<Navigate to="/" />}
+                    path="*" element={<Navigate to="/anime/trending/1" />}
                 />
             </Routes>
         </React.Suspense>

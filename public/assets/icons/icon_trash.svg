@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="49" height="49" viewBox="0 0 49 49">
+  <defs>
+    <clipPath id="clip-icon_trash">
+      <rect width="49" height="49"/>
+    </clipPath>
+  </defs>
+  <g id="icon_trash" clip-path="url(#clip-icon_trash)">
+    <g id="Layer_20" data-name="Layer 20" transform="translate(-6.894 -6.831)">
+      <path id="Path_9" data-name="Path 9" d="M48.784,17.121H40.971V11.954A1.454,1.454,0,0,0,39.517,10.5H23.291a1.454,1.454,0,0,0-1.454,1.454v5.167H14.024a1.454,1.454,0,0,0,0,2.908h1.871V46.85a5.322,5.322,0,0,0,5.322,5.312H41.669a5.322,5.322,0,0,0,5.244-5.312V20.029h1.832a1.454,1.454,0,0,0,.039-2.908ZM24.745,13.408H38.063v3.713H24.745Zm4.236,29.08a1.454,1.454,0,1,1-2.908,0V26.853a1.454,1.454,0,0,1,2.908,0Zm7.755,0a1.454,1.454,0,1,1-2.908,0V26.853a1.454,1.454,0,0,1,2.908,0Z"/>
+    </g>
+  </g>
+</svg>
