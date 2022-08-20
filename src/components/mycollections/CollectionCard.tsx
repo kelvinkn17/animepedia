@@ -1,13 +1,11 @@
 import styled from "@emotion/styled";
-import {Grid, useTheme, Zoom, Button} from "@mui/material";
+import {Button, Grid, useTheme, Zoom} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 
 import MaxLine from "../elements/MaxLine";
 import SvgIconStyle from "../elements/SvgIconStyle";
 
 import useCollections from "../../hooks/useCollections";
-import {useState} from "react";
-import CustomDialog from "../elements/CustomDialog";
 
 interface CollectionCardProps extends MyCollection{
     loading?: boolean
@@ -82,13 +80,13 @@ const CollectionCard = ({ id, title, items }:CollectionCardProps) => {
     )
 
     const handleClick = () => {
-        navigate(`/anime/${id}`);
+        navigate(`/mycollections/${id}`);
     }
 
     // EDIT COLLECTION
     const handleClickEdit = (e:any) => {
         e.stopPropagation();
-        collections.editCollection(id, "haha");
+        collections.handleOpenEditCollectionDialog(id, title);
     }
 
     // DELETE COLLECTION

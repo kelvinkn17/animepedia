@@ -1,11 +1,11 @@
+import {useNavigate} from "react-router-dom";
 import styled from "@emotion/styled";
-import { useTheme, Fade, Zoom } from "@mui/material";
+import {Fade, useTheme} from "@mui/material";
 import Skeleton from "react-loading-skeleton";
-import { useNavigate } from "react-router-dom";
+
 import MaxLine from "../elements/MaxLine";
-import useCollections from "../../hooks/useCollections";
-import {useState} from "react";
 import AddButton from "./AddButton";
+import DeleteCollectionItemButton from "../mycollections/DeleteCollectionItemButton";
 
 interface AnimeCardProps {
     id: string,
@@ -13,10 +13,12 @@ interface AnimeCardProps {
     title: string,
     color: string,
     index: number,
-    loading?: boolean
+    loading?: boolean,
+    collectionItem?: boolean,
+    collectionId?: string,
 }
 
-const AnimeCard = ({ id, image, title, color, index, loading }:AnimeCardProps) => {
+const AnimeCard = ({ id, image, title, color, index, loading, collectionItem, collectionId }:AnimeCardProps) => {
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -41,7 +43,9 @@ const AnimeCard = ({ id, image, title, color, index, loading }:AnimeCardProps) =
                 margin: '0.8rem',
                 fontSize: '0.8rem',
                 transition: 'color 0.2s ease-out',
-                fontWeight: '500'
+                fontWeight: '500',
+                display: 'flex',
+                alignItems: 'center',
             },
             ".anime-card-title-skeleton": {
                 fontSize: '1.6rem',
@@ -103,6 +107,25 @@ const AnimeCard = ({ id, image, title, color, index, loading }:AnimeCardProps) =
                     <Skeleton className="anime-card-title-skeleton" count={1} />
                 </div>
             </AnimeCardContainer> 
+        )
+    }
+
+    if(collectionItem){
+        return(
+            <Fade in>
+                <AnimeCardContainer onClick={handleClick}>
+                    <img src={image} alt="" />
+                    <div className="anime-card-title">
+                        <div style={{ flexGrow: '1', lineBreak: 'anywhere', paddingRight: '1rem' }}>
+                            <MaxLine line={2}>
+                                {title}
+                            </MaxLine>
+                        </div>
+
+                        <DeleteCollectionItemButton id={id} title={title} collectionId={collectionId!} />
+                    </div>
+                </AnimeCardContainer>
+            </Fade>
         )
     }
 

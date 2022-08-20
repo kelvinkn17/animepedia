@@ -1,7 +1,6 @@
-import {useEffect} from "react";
 import {Container} from "@mui/material";
 import {useParams} from "react-router-dom";
-import {gql, useQuery} from "@apollo/client";
+import {useQuery} from "@apollo/client";
 import Skeleton from "react-loading-skeleton";
 
 import Page from "../components/elements/Page";
@@ -20,11 +19,11 @@ const AnimeDetailPage = () => {
     const {error, data, loading }= useQuery(getAnimeDetail(id ? id : ""));
 
     return(
-        <Page>
+        <Page title="Anime Detail">
             {data &&
                 <div style={{display: 'flex', flexDirection: 'column'}}>
                     <AnimeDetailHeader bannerImage={data.Media.bannerImage} coverImage={data.Media.coverImage} siteUrl={data.Media.siteUrl}
-                       title={data.Media.title.romaji} isAdult={data.Media.isAdult} averageScore={data.Media.averageScore}
+                       title={data.Media.title.romaji} isAdult={data.Media.isAdult} averageScore={data.Media.averageScore} id={data.Media.id}
                     />
 
                     <Container maxWidth="xl" style={{marginTop: '1rem'}}>

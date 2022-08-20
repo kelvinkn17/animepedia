@@ -20,11 +20,11 @@ root.render(
     <HelmetProvider>
       <ThemeProvider>
         <ApolloProvider>
-          <CollectionsProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </CollectionsProvider>
+          <BrowserRouter>
+            <CollectionsProvider>
+                <App />
+            </CollectionsProvider>
+          </BrowserRouter>
         </ApolloProvider>
       </ThemeProvider>
     </HelmetProvider>

@@ -7,7 +7,7 @@ const Footer = () => {
 
             <div>
                 Powered by&nbsp;
-                <a href="https://anilist.gitbook.io/anilist-apiv2-docs/" target="_blank">Anilist</a>
+                <a href="https://anilist.gitbook.io/anilist-apiv2-docs/" target="_blank" rel="noreferrer">Anilist</a>
             </div>
         </div>
     )

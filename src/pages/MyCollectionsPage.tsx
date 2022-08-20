@@ -1,4 +1,4 @@
-import {Container, Grid, Typography, useTheme} from "@mui/material";
+import {Container, Grid, Typography} from "@mui/material";
 import Page from "../components/elements/Page";
 import CollectionCard from "../components/mycollections/CollectionCard";
 import useCollections from "../hooks/useCollections";
@@ -6,7 +6,6 @@ import AddCollectionButton from "../components/mycollections/AddCollectionButton
 
 
 const MyCollectionsPage = () => {
-    const theme = useTheme();
     const collections = useCollections();
 
     return(

@@ -3,35 +3,63 @@ import React, {createContext, useState} from "react";
 import BulkAddToCollection from "../components/mycollections/BulkAddToCollection";
 import AddCollectionDialog from "../components/mycollections/AddCollectionDialog";
 import DeleteCollectionDialog from "../components/mycollections/DeleteCollectionDialog";
+import EditCollectionDialog from "../components/mycollections/EditCollectionDialog";
+import DeleteCollectionItemDialog from "../components/mycollections/DeleteCollectionItemDialog";
 
 interface CollectionContextEnum {
     collectionsData: MyCollections;
-    selectedItem: SelectedItem,
+    getCollectionDetail: (id:string) => void;
+    collectionDetail: any;
+
+    selectedItem: SelectedItem;
     handleOpenAddCollectionDialog: () => void;
     handleCloseAddCollectionDialog: () => void;
     addCollection: (data:MyCollection) => void;
+
     handleAddSelection: (data:CollectionItem) => void;
-    handleBulkAdd: (data:CollectionItem[], id: string[]) => void,
     handleRemoveSelection: (data:CollectionItem) => void;
+    handleBulkAdd: (data:CollectionItem[], id: string[]) => void,
+
+    handleSingleAdd: (data:CollectionItem, id: string[]) => void,
+
+    handleOpenEditCollectionDialog: (id:string, title:string) => void;
+    handleCloseEditCollectionDialog: () => void;
+    editCollection: (newTitle:string) => void;
+
     handleOpenDeleteCollectionDialog: (id:string, title:string) => void;
     handleCloseDeleteCollectionDialog: () => void;
-    editCollection: (id:string, newTitle:string) => void;
     deleteCollection: (id:string) => void;
+
+    handleOpenDeleteCollectionItemDialog: (id:string, title:string, collectionId: string) => void;
+    handleCloseDeleteCollectionItemDialog: () => void;
 }
 
 const initialState: CollectionContextEnum = {
     collectionsData: [],
+    collectionDetail: {},
+    getCollectionDetail: () => {},
+
     selectedItem: [],
     handleCloseAddCollectionDialog: () => {},
     handleOpenAddCollectionDialog: () => {},
     addCollection: () => {},
+
     handleAddSelection: () => {},
     handleRemoveSelection: () => {},
     handleBulkAdd: () => {},
+
+    handleSingleAdd: () => {},
+
     editCollection: () => {},
+    handleOpenEditCollectionDialog: () => {},
+    handleCloseEditCollectionDialog: () => {},
+
     handleOpenDeleteCollectionDialog: () => {},
     handleCloseDeleteCollectionDialog: () => {},
-    deleteCollection: () => {}
+    deleteCollection: () => {},
+
+    handleOpenDeleteCollectionItemDialog: () => {},
+    handleCloseDeleteCollectionItemDialog: () => {}
 };
 
 const MY_COLLECTIONS = [
@@ -127,6 +155,47 @@ const CollectionsProvider = ({ children }:{ children:React.ReactNode }) => {
         setSelectedItem([]);
     }
 
+    // SINGLE ADD
+    const handleSingleAdd = (data:CollectionItem, id:string[]) => {
+        console.log(`ADD ${JSON.stringify(data)} to ${id}`);
+
+        const collections = [...collectionsData];
+
+        // CHECK IF ADDED
+        let alreadyAdded:string[] = [];
+        for(let i=0; i<collections.length; i++){
+            for(let j=0; j<collections[i].items.length; j++){
+                if(collections[i].items[j].id === data.id){
+                    alreadyAdded.push(collections[i].id);
+                }
+            }
+        }
+
+        // DELETE IF UNCHECKED
+        for(let i=0; i<collections.length; i++){
+            for(let j=0; j<alreadyAdded.length; j++){
+                if(collections[i].id === alreadyAdded[j]){
+                    if(!(id.includes(collections[i].id))){
+                        collections[i].items = collections[i].items.filter((item) => {
+                            return item.id !== data.id;
+                        });
+                    }
+                }
+            }
+        }
+
+        // ADD and prevent double add
+        for(let i=0; i<collections.length; i++){
+            for(let j=0; j<id.length; j++){
+                if(collections[i].id === id[j] && !alreadyAdded.includes(id[j])){
+                    collections[i].items.push(data);
+                }
+            }
+        }
+
+        setCollectionsData(collections);
+    }
+
     // ADD COLLECTION
     const [isOpenAddCollectionDialog, setIsOpenAddCollectionDialog] = useState(false);
     const handleOpenAddCollectionDialog = () => {
@@ -138,12 +207,30 @@ const CollectionsProvider = ({ children }:{ children:React.ReactNode }) => {
     }
 
     const addCollection = (data:MyCollection) => {
-        console.log(`add: ${JSON.stringify(data)}`);
         setCollectionsData([...collectionsData, data]);
     }
 
-    const editCollection = (id:string, newTitle:string) => {
-        console.log(`EDIT ${id} to ${newTitle}`);
+    // EDIT COLLECTION
+    const [isOpenEditCollectionDialog, setIsOpenEditCollectionDialog] = useState(false);
+    const [selectedEdit, setSelectedEdit] = useState({id: "", title: ""});
+
+    const handleOpenEditCollectionDialog = (id:string, title:string) => {
+        setSelectedEdit({ id: id, title: title});
+        setIsOpenEditCollectionDialog(true);
+    }
+
+    const handleCloseEditCollectionDialog = () => {
+        setIsOpenEditCollectionDialog(false);
+    }
+
+    const editCollection = (newTitle:string) => {
+        const collections = [...collectionsData];
+        for(let i=0; i<collections.length; i++){
+            if(collections[i].id === selectedEdit.id){
+                collections[i].title = newTitle;
+            }
+        }
+        setCollectionsData(collections);
     }
 
     // REMOVE COLLECTION
@@ -173,6 +260,42 @@ const CollectionsProvider = ({ children }:{ children:React.ReactNode }) => {
         handleCloseDeleteCollectionDialog();
     }
 
+    // COLLECTION DETAIL
+    const [collectionDetail, setCollectionDetail] = useState<any>([]);
+    const getCollectionDetail = (id:string) => {
+        const detail = collectionsData.find(x => x.id === id);
+        setCollectionDetail(detail);
+    }
+
+    // DELETE COLLECTION ITEM
+    const [isOpenDeleteCollectionItemDialog, setIsOpenDeleteCollectionItemDialog] = useState(false);
+    const [selectedDeleteItem, setSelectedDeleteItem] = useState({ id: "", title: "", collectionId: ""});
+    const handleOpenDeleteCollectionItemDialog = (id:string, title:string, collectionId: string) => {
+        console.log(id);
+        setSelectedDeleteItem({ id: id, title: title, collectionId: collectionId});
+        setIsOpenDeleteCollectionItemDialog(true);
+    }
+
+    const handleCloseDeleteCollectionItemDialog = () => {
+        setIsOpenDeleteCollectionItemDialog(false);
+    }
+
+    const handleDeleteCollectionItem = () => {
+        const collections = [...collectionsData];
+        for(let i=0; collections.length; i++){
+            if(collections[i].id === selectedDeleteItem.collectionId){
+                collections[i].items = collections[i].items.filter((item) => {
+                    return item.id !== selectedDeleteItem.id
+                });
+
+                setCollectionsData(collections);
+                break;
+            }
+        }
+
+        handleCloseDeleteCollectionItemDialog();
+    }
+
     return(
         <CollectionsContext.Provider
             value={{
@@ -186,18 +309,34 @@ const CollectionsProvider = ({ children }:{ children:React.ReactNode }) => {
                 addCollection,
                 handleAddSelection,
                 handleRemoveSelection,
+
+                handleSingleAdd,
+
+                handleOpenEditCollectionDialog,
+                handleCloseEditCollectionDialog,
                 editCollection,
 
                 handleOpenDeleteCollectionDialog,
                 handleCloseDeleteCollectionDialog,
-                deleteCollection
+                deleteCollection,
+
+                getCollectionDetail,
+                collectionDetail,
+
+                handleOpenDeleteCollectionItemDialog,
+                handleCloseDeleteCollectionItemDialog
             }}
         >
             {children}
 
             <BulkAddToCollection selectedItem={selectedItem} collectionsData={collectionsData} />
             <AddCollectionDialog open={isOpenAddCollectionDialog} onClose={handleCloseAddCollectionDialog} />
+
             <DeleteCollectionDialog title={selectedDelete.title} open={isOpenDeleteCollectionDialog} onClose={handleCloseDeleteCollectionDialog} handleDelete={handleDeleteCollection} />
+
+            <EditCollectionDialog open={isOpenEditCollectionDialog} onClose={handleCloseEditCollectionDialog} title={selectedEdit.title} />
+
+            <DeleteCollectionItemDialog title={selectedDeleteItem.title} open={isOpenDeleteCollectionItemDialog} onClose={handleCloseDeleteCollectionItemDialog} handleDelete={handleDeleteCollectionItem} />
         </CollectionsContext.Provider>
     )
 }

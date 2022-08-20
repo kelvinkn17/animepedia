@@ -1,5 +1,4 @@
 import { Helmet } from 'react-helmet-async';
-import { forwardRef } from 'react';
 
 interface PageProps {
     children: React.ReactNode;
@@ -16,7 +15,7 @@ const Page = (({children, title = '', meta, ...other}: PageProps) => (
             {meta}
         </Helmet>
 
-        <div {...other} style={{ zIndex: 2, marginTop: '2.8rem', marginBottom: '8rem', flexGrow: '1' }}>
+        <div {...other} style={{ zIndex: 2, marginTop: '3rem', marginBottom: '8rem', flexGrow: '1' }}>
             {children}
         </div>
     </>

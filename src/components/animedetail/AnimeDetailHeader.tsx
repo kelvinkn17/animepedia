@@ -1,7 +1,8 @@
-import {Button, Container, Typography, useTheme} from "@mui/material";
+import {Container, Typography, useTheme} from "@mui/material";
+
 import RatingBadge from "./RatingBadge";
-import SvgIconStyle from "../elements/SvgIconStyle";
 import RedirectButton from "../elements/RedirectButton";
+import SingleAddToCollection from "../mycollections/SingleAddToCollection";
 
 interface AnimeDetailHeaderProps{
     bannerImage: string,
@@ -9,9 +10,10 @@ interface AnimeDetailHeaderProps{
     title: string,
     isAdult: boolean,
     averageScore: number,
-    siteUrl: string
+    siteUrl: string,
+    id:string
 }
-const AnimeDetailHeader = ({ bannerImage, coverImage, title, isAdult, averageScore, siteUrl }:AnimeDetailHeaderProps) => {
+const AnimeDetailHeader = ({ bannerImage, coverImage, title, isAdult, averageScore, siteUrl, id }:AnimeDetailHeaderProps) => {
     const theme = useTheme();
 
     return(
@@ -66,9 +68,7 @@ const AnimeDetailHeader = ({ bannerImage, coverImage, title, isAdult, averageSco
                                     </div>
                                 }
 
-                                <Button variant="contained" color="primary">
-                                    Add
-                                </Button>
+                                <SingleAddToCollection id={id} title={title} coverImage={coverImage.large} />
                             </div>
                         </div>
                     </div>

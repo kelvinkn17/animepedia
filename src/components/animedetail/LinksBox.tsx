@@ -68,7 +68,7 @@ const LinksBox = ({ links }:LinksBoxProps) => {
                 </div>
             </BoxItem>
 
-            <CustomDialog open={isOpenDialog} onClose={() => setIsOpenDialog(false)} fullWidth maxWidth="xs" title="Links">
+            <CustomDialog open={isOpenDialog} onClose={handleCloseDialog} fullWidth maxWidth="xs" title="Links">
                 <div>
                     {Object.keys((groupedLinks)).map((category) => {
                         return(

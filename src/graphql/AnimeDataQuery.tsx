@@ -1,7 +1,7 @@
 import {gql} from "@apollo/client";
 
 export const getAnimeList = (page:number, perPage:number) => {
-    console.log(`get anime list page ${page} (${perPage} per page)`);
+    // console.log(`get anime list page ${page} (${perPage} per page)`);
 
     return gql`
         query{
@@ -30,7 +30,7 @@ export const getAnimeList = (page:number, perPage:number) => {
 }
 
 export const getAnimeDetail = (id:string) => {
-    console.log(`get anime detail ${id}`);
+    // console.log(`get anime detail ${id}`);
 
     return gql`
         query{

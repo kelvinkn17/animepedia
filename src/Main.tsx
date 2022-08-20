@@ -13,6 +13,7 @@ const Main = () => {
                 <Route path='/anime/trending/:page' element={<AnimeListPage />} />
                 <Route path='/anime/:id' element={<AnimeDetailPage />} />
                 <Route path='/mycollections' element={<MyCollectionsPage />} />
+                <Route path='/mycollections/:id' element={<MyCollectionsDetailPage />} />
 
                 <Route
                     path="*" element={<Navigate to="/anime/trending/1" />}
@@ -23,7 +24,9 @@ const Main = () => {
 }
 
 const AnimeListPage = React.lazy(() => import('./pages/AnimeListPage'));
-const MyCollectionsPage = React.lazy(() => import('./pages/MyCollectionsPage'));
 const AnimeDetailPage = React.lazy(() => import('./pages/AnimeDetailPage'));
+
+const MyCollectionsPage = React.lazy(() => import('./pages/MyCollectionsPage'));
+const MyCollectionsDetailPage = React.lazy(() => import('./pages/MyCollectionsDetailPage'));
 
 export default Main;

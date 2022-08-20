@@ -8,7 +8,7 @@ export function groupBySingleField(data:any, field:string){
         }, {});
         if (acc[val[field]]) {
             acc[val[field]].push(rest);
-        } else {;
+        } else {
             acc[val[field]] = [rest];
         }
         return acc;

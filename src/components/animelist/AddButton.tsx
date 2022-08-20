@@ -19,8 +19,7 @@ const AddButton = ({ id, title, coverImage }:CollectionItem) => {
         }
     }
 
-    // check if selected
-    useEffect(() => {
+    const handleSelected = () => {
         let selectedFlag = false;
         for(let i=0; i<collections.selectedItem.length; i++){
             if(collections.selectedItem[i].id === id){
@@ -29,6 +28,11 @@ const AddButton = ({ id, title, coverImage }:CollectionItem) => {
         }
 
         setIsSelected(selectedFlag);
+    }
+
+    // check if selected
+    useEffect(() => {
+        handleSelected();
     }, [collections.selectedItem])
 
     return(

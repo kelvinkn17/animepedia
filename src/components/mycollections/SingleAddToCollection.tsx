@@ -1,4 +1,4 @@
-import {Button, Divider, Fab, Grid, Typography, Zoom} from "@mui/material";
+import {Button, Divider, Typography} from "@mui/material";
 import React, {useState} from "react";
 
 import useCollections from "../../hooks/useCollections";
@@ -8,11 +8,12 @@ import CustomDialog from "../elements/CustomDialog";
 import CollectionsCheckbox from "./CollectionsCheckbox";
 import AddCollectionButton from "./AddCollectionButton";
 
-const BulkAddToCollection = ({ selectedItem, collectionsData }:{ selectedItem:SelectedItem, collectionsData:MyCollections }) => {
+const SingleAddToCollection = ({ id, coverImage, title }:CollectionItem) => {
     const collections = useCollections();
 
     const [isOpenDialog, setIsOpenDialog] = useState(false);
     const handleOpenDialog = () => {
+        initialize();
         setIsOpenDialog(true);
     }
     const handleCloseDialog = () => {
@@ -20,6 +21,21 @@ const BulkAddToCollection = ({ selectedItem, collectionsData }:{ selectedItem:Se
     }
 
     const [selectedCollections, setSelectedCollection] = useState<string[]>([]);
+
+    const checkAlreadyAdded = () => {
+        const collection = collections.collectionsData;
+        let alreadyAdded = [];
+        for(let i=0; i<collection.length; i++){
+            for(let j=0; j<collection[i].items.length; j++){
+                if(collection[i].items[j].id === id){
+                    alreadyAdded.push(collection[i].id);
+                }
+            }
+        }
+
+        return alreadyAdded;
+    }
+
 
     const onCheckCollection = (id:string, event:any) => {
         const checked = event.target.checked;
@@ -32,40 +48,32 @@ const BulkAddToCollection = ({ selectedItem, collectionsData }:{ selectedItem:Se
     }
 
     const initialize = () => {
-        setSelectedCollection([]);
+        const added = checkAlreadyAdded();
+        setSelectedCollection(added);
     }
 
-    const handleBulkAdd = () => {
-        collections.handleBulkAdd(selectedItem, selectedCollections);
+    const handleSingleAdd = () => {
+        const data:CollectionItem = {id: id, title: title, coverImage: coverImage};
+        collections.handleSingleAdd(data, selectedCollections);
 
         handleCloseDialog();
         initialize();
     }
     return(
         <>
-            <Zoom in={selectedItem.length>0} unmountOnExit>
-                <Fab onClick={handleOpenDialog} size="medium" color="primary" aria-label="add" sx={{ position: 'fixed', right: '1rem', bottom :' 5rem', fontSize: '1rem'}}>
-                    +{selectedItem.length}
-                </Fab>
-            </Zoom>
+            <Button onClick={handleOpenDialog} variant="contained" color="primary">
+                Add
+            </Button>
 
-            <CustomDialog open={isOpenDialog} onClose={handleCloseDialog} fullWidth maxWidth="sm" title="Bulk Add to Collection">
+            <CustomDialog open={isOpenDialog} onClose={handleCloseDialog} fullWidth maxWidth="xs" title="Add to Collection">
                 <div>
-                    <div style={{ maxHeight: '45vh', overflowY: 'auto', paddingBottom: '1rem' }}>
-                        <Grid container spacing="1rem">
-                            {selectedItem.map((item:CollectionItem, index:number) => {
-                                return(
-                                    <Grid key={index} item xxs={6} xs={4} sm={3}>
-                                        <div style={{ fontSize: '0.8rem' }}>
-                                            <img src={item.coverImage} alt="" style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover', borderRadius: '0.6rem'}} />
-                                            <MaxLine line={2}>
-                                                {item.title}
-                                            </MaxLine>
-                                        </div>
-                                    </Grid>
-                                )
-                            })}
-                        </Grid>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '1rem' }}>
+                        <div style={{ fontSize: '1rem', width: '100%', maxWidth: '12rem' }}>
+                            <img src={coverImage} alt="" style={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover', borderRadius: '0.6rem'}} />
+                            <MaxLine line={2}>
+                                {title}
+                            </MaxLine>
+                        </div>
                     </div>
 
                     <Divider />
@@ -75,9 +83,9 @@ const BulkAddToCollection = ({ selectedItem, collectionsData }:{ selectedItem:Se
                             Add to
                         </Typography>
 
-                        {(collectionsData.length > 0) ?
+                        {(collections.collectionsData.length > 0) ?
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                {collectionsData.map((item:MyCollection, index:number) => {
+                                {collections.collectionsData.map((item:MyCollection, index:number) => {
                                     return(
                                         <CollectionsCheckbox key={index} checked={(selectedCollections.indexOf(item.id) > -1)}
                                             onCheck={onCheckCollection} id={item.id} title={item.title} onClose={handleCloseDialog}
@@ -97,8 +105,8 @@ const BulkAddToCollection = ({ selectedItem, collectionsData }:{ selectedItem:Se
                             </div>
                         }
 
-                        {(collectionsData.length > 0) &&
-                            <Button onClick={handleBulkAdd} variant="contained" color="primary" style={{ marginLeft: 'auto', marginTop: '1rem'}}>
+                        {(collections.collectionsData.length > 0) &&
+                            <Button onClick={handleSingleAdd} variant="contained" color="primary" style={{ marginLeft: 'auto', marginTop: '1rem'}}>
                                 Done
                             </Button>
                         }
@@ -109,4 +117,4 @@ const BulkAddToCollection = ({ selectedItem, collectionsData }:{ selectedItem:Se
     )
 }
 
-export default BulkAddToCollection;
+export default SingleAddToCollection;

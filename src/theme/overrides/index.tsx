@@ -1,4 +1,3 @@
-import { ThemeOptions } from "@mui/material";
 import Button from "./Button";
 
 const ComponentsOverrides = (theme:any) => {
