@@ -19,15 +19,21 @@ const MyCollectionsPage = () => {
                     <AddCollectionButton variant="contained" />
                 </div>
 
-                <Grid spacing="1rem" container>
-                    {collections.collectionsData.map(( item:MyCollection, index:number) => {
-                        return(
-                            <Grid key={index} item xxs={6} xs={6} sm={4} md={2.4}>
-                                <CollectionCard id={item.id} title={item.title} coverImage={item.coverImage} items={item.items} />
-                            </Grid>
-                        )
-                    })}
-                </Grid>
+                {collections.collectionsData.length > 0 ?
+                    <Grid spacing="1rem" container>
+                        {collections.collectionsData.map(( item:MyCollection, index:number) => {
+                            return(
+                                <Grid key={index} item xxs={6} xs={6} sm={4} md={2.4}>
+                                    <CollectionCard id={item.id} title={item.title} coverImage={item.coverImage} items={item.items} />
+                                </Grid>
+                            )
+                        })}
+                    </Grid>
+                    :
+                    <div style={{ textAlign: 'center', marginTop: '8rem' }}>
+                        You don't have any collection yet.
+                    </div>
+                }
             </Container>
         </Page>
     )
