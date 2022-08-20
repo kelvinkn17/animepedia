@@ -1,3 +1,4 @@
+import React from "react";
 import 'normalize.css';
 import './App.css';
 import 'react-loading-skeleton/dist/skeleton.css';
