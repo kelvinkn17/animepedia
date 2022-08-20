@@ -62,57 +62,10 @@ const initialState: CollectionContextEnum = {
     handleCloseDeleteCollectionItemDialog: () => {}
 };
 
-const MY_COLLECTIONS = [
-    {
-        id: "1",
-        title: "Collection 1",
-        coverImage: "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx143056-Z3TwOoUsXHEY.jpg",
-        items: [
-            {
-                id: "1",
-                title: "Anime 1",
-                coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx101348-msJS8z91mG0P.jpg"
-            },
-            {
-                id: "2",
-                title: "Anime 2",
-                coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx101348-msJS8z91mG0P.jpg"
-            },
-            {
-                id: "3",
-                title: "Anime 3",
-                coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx101348-msJS8z91mG0P.jpg"
-            },
-        ]
-    },
-    {
-        id: "1",
-        title: "Collection 1",
-        coverImage: "https://s4.anilist.co/file/anilistcdn/media/manga/cover/medium/bx143056-Z3TwOoUsXHEY.jpg",
-        items: [
-            {
-                id: "1",
-                title: "Anime 1",
-                coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx101348-msJS8z91mG0P.jpg"
-            },
-            {
-                id: "2",
-                title: "Anime 2",
-                coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx101348-msJS8z91mG0P.jpg"
-            },
-            {
-                id: "3",
-                title: "Anime 3",
-                coverImage: "https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx101348-msJS8z91mG0P.jpg"
-            },
-        ]
-    },
-]
-
 const CollectionsContext = createContext<CollectionContextEnum>(initialState);
 
 const CollectionsProvider = ({ children }:{ children:React.ReactNode }) => {
-    const [collectionsData, setCollectionsData] = useLocalStorage<MyCollections>('animepedia-mycollections', MY_COLLECTIONS);
+    const [collectionsData, setCollectionsData] = useLocalStorage<MyCollections>('animepedia-mycollections', []);
 
     // reset
     // useEffect(() => {
