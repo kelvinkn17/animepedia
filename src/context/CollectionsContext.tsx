@@ -81,7 +81,7 @@ const CollectionsProvider = ({ children }:{ children:React.ReactNode }) => {
     const handleRemoveSelection = (data:CollectionItem) => {
         setSelectedItem(selectedItem.filter(function(item:CollectionItem){
             // eslint-disable-next-line no-self-compare
-            return item.id !== item.id
+            return item.id !== data.id
         }));
     }
 
